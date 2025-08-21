@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/Tools/Recorder.dart';
 
 class RecordButton extends StatefulWidget{
   const RecordButton({super.key});
@@ -11,6 +12,8 @@ class _RecordButtonState extends State<RecordButton>{
   final String recStart = "assets/UI/Icons/MicOnBtn.png";
   final String recStop = "assets/UI/Icons/MicOffBtn.png";
   bool isRecording = false;
+
+  final recorder = Recorder();
 
   String currentIconPath = '';
 

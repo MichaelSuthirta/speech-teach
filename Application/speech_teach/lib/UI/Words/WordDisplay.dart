@@ -22,4 +22,8 @@ class WordDisplay extends StatelessWidget{
       ),
     );
   }
+
+  String getWord(){
+    return word;
+  }
 }
