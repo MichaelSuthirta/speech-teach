@@ -5,9 +5,11 @@ import '/UI/Words/WordDisplay.dart';
 import '/UI/Words/DefinitionDisplay.dart';
 import '/UI/Buttons/RecordButton.dart';
 import '/UI/Buttons/BoxedIconButton.dart';
+import '/Tools/Recorder.dart';
 
 class PracticePage extends StatefulWidget{
-  const PracticePage({super.key});
+  final Recorder recorder = Recorder();
+  PracticePage({super.key});
 
   @override
   State<PracticePage> createState() => _PracticePageState();
@@ -44,6 +46,8 @@ class _PracticePageState extends State<PracticePage>{
                   if(snapshot.hasData){
                     word = snapshot.data!['Word'];
                     def = snapshot.data!['Definition'];
+
+                    widget.recorder.setFileName(word);
                     
                     return Column(
                       children:[
@@ -65,7 +69,7 @@ class _PracticePageState extends State<PracticePage>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RecordButton(),
+                  RecordButton(recorder: widget.recorder),
                   BoxedIconButton(
                     imagePath: "assets/UI/Icons/RefreshButton.png",
                     size: 120,

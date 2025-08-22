@@ -4,16 +4,33 @@ import 'package:path_provider/path_provider.dart';
 
 class Recorder{
   var recorder = AudioRecorder();
+  late String filename;
 
-  void startRecord(String expectedWord) async{
+  void setFileName(String expectedWord){
+    if(expectedWord.isNotEmpty){
+      filename = 'Record_$expectedWord.m4a';
+    }
+    else{
+      filename = 'VoiceRecord.m4a';
+    }
+  }
+
+  void printFileName(){
+    print(filename);
+  }
+
+  void startRecord() async{
     final appDocsDirectory = await getApplicationDocumentsDirectory();
-    String filePath = join(appDocsDirectory.toString(), 'Record_{$expectedWord}.m4a');
+    String filePath = join(appDocsDirectory.toString(), filename);
     if(await recorder.hasPermission()){
       recorder.start(const RecordConfig(), path: filePath);
     }
   }
 
-  Future<String?> stopRecord() async{
-    return await recorder.stop();
+  Future<String> stopRecord() async{
+    String? nullablePath = await recorder.stop();
+    String path = nullablePath ?? '';
+    recorder.dispose();
+    return path;
   }
 }
