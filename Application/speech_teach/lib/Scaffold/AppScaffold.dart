@@ -24,7 +24,7 @@ class AppScaffold extends StatelessWidget{
                     " SpeechTeach",
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 30,
                         fontFamily: "Concert One",
                         color: Color.fromRGBO(61, 52, 139, 1.0)
                     ),
@@ -36,7 +36,7 @@ class AppScaffold extends StatelessWidget{
                       "Practice your speech",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontFamily: "Consolas",
                           color: Color.fromRGBO(118, 120, 237, 1.0)
                       )

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:speech_teach/Tools/BackendConnector.dart';
 import '/Tools/Recorder.dart';
 
 class RecordButton extends StatefulWidget{
-  final Recorder recorder;
-  const RecordButton({super.key, required this.recorder});
+  const RecordButton({super.key});
 
   @override
   State<RecordButton> createState() => _RecordButtonState();
@@ -23,33 +23,34 @@ class _RecordButtonState extends State<RecordButton>{
     isRecording = false;
   }
 
-  void record(){
+  void record() async{
     if(!isRecording){
       setState(() {
         currentIconPath = recStop;
         isRecording = true;
-        widget.recorder.startRecord();
       });
+      Recorder.startRecord();
     }
     else{
-      setState(() async {
+      setState(() {
         currentIconPath = recStart;
         isRecording = false;
-        String filePath = await widget.recorder.stopRecord();
       });
+      String filePath = await Recorder.stopRecord();
+      BackendConnector.sendAudio(filePath);
     }
   }
 
   @override
   Widget build(BuildContext context){
     return SizedBox(
-      width: 120,
-      height: 120,
+      width: 80,
+      height: 80,
       child: IconButton(
         splashRadius: 110,
         splashColor: Colors.black,
         icon: Image(image: AssetImage(currentIconPath)),
-        onPressed: (){
+        onPressed: () async{
           record();
           print("Clicked record");
           },

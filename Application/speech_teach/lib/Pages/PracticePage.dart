@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/Tools/WordFetcher.dart';
+import '/Tools/BackendConnector.dart';
 import '/Scaffold/AppScaffold.dart';
 import '/UI/Words/WordDisplay.dart';
 import '/UI/Words/DefinitionDisplay.dart';
@@ -8,7 +8,6 @@ import '/UI/Buttons/BoxedIconButton.dart';
 import '/Tools/Recorder.dart';
 
 class PracticePage extends StatefulWidget{
-  final Recorder recorder = Recorder();
   PracticePage({super.key});
 
   @override
@@ -22,7 +21,7 @@ class _PracticePageState extends State<PracticePage>{
   @override
   void initState(){
     super.initState();
-    fetchWords();
+    BackendConnector.fetchWords();
   }
 
   @override
@@ -41,13 +40,13 @@ class _PracticePageState extends State<PracticePage>{
               )
             ),
             FutureBuilder<Map<String, dynamic>>(
-                future: fetchWords(), //Function to fetch data
+                future: BackendConnector.fetchWords(), //Function to fetch data
                 builder: (context, snapshot){
                   if(snapshot.hasData){
                     word = snapshot.data!['Word'];
                     def = snapshot.data!['Definition'];
 
-                    widget.recorder.setFileName(word);
+                    Recorder.setFileName(word);
                     
                     return Column(
                       children:[
@@ -69,10 +68,10 @@ class _PracticePageState extends State<PracticePage>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RecordButton(recorder: widget.recorder),
+                  RecordButton(),
                   BoxedIconButton(
                     imagePath: "assets/UI/Icons/RefreshButton.png",
-                    size: 120,
+                    size: 80,
                     onPress: (){
                       setState((){});
                     },

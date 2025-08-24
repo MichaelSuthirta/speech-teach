@@ -19,7 +19,7 @@ class DefinitionDisplay extends StatelessWidget{
         maxLines: 2,
         style: const TextStyle(
             fontFamily: "Consolas",
-            fontSize: 24,
+            fontSize: 20,
             color: Color.fromRGBO(118, 120, 237, 1.0)
         ),
       )

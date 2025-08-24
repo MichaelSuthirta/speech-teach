@@ -16,7 +16,7 @@ class WordDisplay extends StatelessWidget{
         word,
         style: const TextStyle(
             fontFamily: "Concert One",
-            fontSize: 50,
+            fontSize: 42,
             color: Color.fromRGBO(61, 52, 139, 1.0)
         ),
       ),
