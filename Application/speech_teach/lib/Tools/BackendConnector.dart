@@ -8,7 +8,7 @@ class BackendConnector{
   static String ipAddressPort = "192.168.1.7:5000";
   static String localHostPort = "127.0.0.1:5000";
 
-  static String activePort = androidStudioIPPort;
+  static String activePort = ipAddressPort;
 
   static Future<Map<String, dynamic>> fetchWords() async {
     var response = await http.get(

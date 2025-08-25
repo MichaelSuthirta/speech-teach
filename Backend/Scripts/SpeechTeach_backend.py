@@ -16,7 +16,8 @@ UPLOAD_FOLDER = 'Backend\\Temporary Audio Storage'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
-filePath = None
+# filePath = None
+
 
 # Random word generator
 def load_csv():
@@ -36,6 +37,32 @@ def pick_word():
     word_meaning = word_meaning.split(";")[0]
 
     return chosen_word, word_meaning
+
+# Class for file
+class AudioFile:
+    def __init(self, fileName = '', filePath = ''):
+        self.filePath = filePath
+        self.fileName = fileName
+
+    def setPath(self, path):
+        self.filePath = path
+    
+    def getPath(self):
+        return self.filePath
+    
+    def setName(self, name):
+        self.fileName = name
+    
+    def getName(self):
+        return self.fileName
+    
+    def transcribe(self):
+        res = model_predict(self.filePath)
+        return res
+
+audioFile = AudioFile()
+
+# Transcriber
 
 def model_predict(fileName):
     path = "Backend\\Model"
@@ -77,6 +104,7 @@ def choose_word():
     word, definition = pick_word()
     return jsonify({'Word': word, 'Definition':definition})
 
+
 @app.route("/assess", methods=["GET", "POST"])
 def transcribeAudio():
     global response
@@ -86,7 +114,7 @@ def transcribeAudio():
         # data = json.loads(data.decode("utf-8"))
         # filePath = data["filePath"]
         # return ""
-        global filePath
+        # global filePath
 
         if 'file' not in request.files:
             return jsonify({'error' : 'File not found'});400
@@ -95,18 +123,19 @@ def transcribeAudio():
         if file.filename == '':
             return jsonify({'error' : 'File name is empty'});400
         
-        fileName = secure_filename(file.filename)
+        audioFile.setName(file.filename)
         
-        filePath = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
+        filePath = os.path.join(app.config['UPLOAD_FOLDER'], audioFile.getName())
+        audioFile.setPath(filePath)
+
         file.save(filePath)
 
         return ''
 
     else:
-        global filePath
         # word = model_predict(filePath)
         # return jsonify({"Transcription" : word})
-        return jsonify({"Path" : filePath})
+        return jsonify({"Path" : audioFile.getName()})
 
 if __name__ == "__main__":
     app.run(debug="True") 
