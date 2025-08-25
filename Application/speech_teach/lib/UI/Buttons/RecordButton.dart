@@ -36,8 +36,8 @@ class _RecordButtonState extends State<RecordButton>{
         currentIconPath = recStart;
         isRecording = false;
       });
-      String filePath = await Recorder.stopRecord();
-      BackendConnector.sendAudio(filePath);
+      List<String> fileData = await Recorder.stopRecord();
+      BackendConnector.sendAudio(fileData);
     }
   }
 

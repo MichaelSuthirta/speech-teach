@@ -1,6 +1,8 @@
 # Flask
 from flask import Flask, jsonify, request
 import json
+import os
+from werkzeug.utils import secure_filename
 
 # Dependencies
 import numpy as np
@@ -8,7 +10,10 @@ import pandas as pd
 from transformers import WhisperForConditionalGeneration, WhisperProcessor
 from pydub import AudioSegment
 
+
 app = Flask("__name__")
+UPLOAD_FOLDER = 'Backend\\Temporary Audio Storage'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
 
@@ -74,16 +79,33 @@ def choose_word():
 @app.route("/assess", methods=["GET", "POST"])
 def transcribeAudio():
     global response
-    global filePath
+    filePath = None
+
 
     if(request.method == "POST"):
-        data = request.data
-        data = json.loads(data.decode("utf-8"))
-        filePath = data["filePath"]
-        return ""
+        # data = request.data
+        # data = json.loads(data.decode("utf-8"))
+        # filePath = data["filePath"]
+        # return ""
+        
+        if 'file' not in request.files:
+            return jsonify({'error' : 'File not found'});400
+        
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error' : 'File name is empty'});400
+        
+        fileName = secure_filename(file.filename)
+        
+        filePath = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
+        file.save(filePath)
+
+        return ''
+
     else:
-        word = model_predict(filePath)
-        return jsonify({"Transcription" : word})
+        # word = model_predict(filePath)
+        # return jsonify({"Transcription" : word})
+        return jsonify({"Path" : filePath})
 
 if __name__ == "__main__":
     app.run(debug="True") 

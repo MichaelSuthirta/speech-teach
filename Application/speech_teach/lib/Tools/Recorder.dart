@@ -34,13 +34,13 @@ class Recorder{
     print("Permission: ${await recorder.hasPermission()}");
   }
 
-  static Future<String> stopRecord() async{
+  static Future<List<String>> stopRecord() async{
     print("Recording status: ${await recorder.isRecording()}");
     String? nullablePath = await recorder.stop();
     print('Recording has stopped');
     String path = nullablePath ?? '';
     print(path);
     recorder.dispose();
-    return path;
+    return [path, filename];
   }
 }
