@@ -16,6 +16,7 @@ UPLOAD_FOLDER = 'Backend\\Temporary Audio Storage'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
+filePath = None
 
 # Random word generator
 def load_csv():
@@ -79,15 +80,14 @@ def choose_word():
 @app.route("/assess", methods=["GET", "POST"])
 def transcribeAudio():
     global response
-    filePath = None
-
 
     if(request.method == "POST"):
         # data = request.data
         # data = json.loads(data.decode("utf-8"))
         # filePath = data["filePath"]
         # return ""
-        
+        global filePath
+
         if 'file' not in request.files:
             return jsonify({'error' : 'File not found'});400
         
@@ -103,6 +103,7 @@ def transcribeAudio():
         return ''
 
     else:
+        global filePath
         # word = model_predict(filePath)
         # return jsonify({"Transcription" : word})
         return jsonify({"Path" : filePath})
