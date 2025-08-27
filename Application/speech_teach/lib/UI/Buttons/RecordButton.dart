@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:speech_teach/Tools/BackendConnector.dart';
+import '/Tools/AudioProcessor.dart';
 import '/Tools/Recorder.dart';
 
 class RecordButton extends StatefulWidget{
@@ -37,7 +37,7 @@ class _RecordButtonState extends State<RecordButton>{
         isRecording = false;
       });
       List<String> fileData = await Recorder.stopRecord();
-      BackendConnector.assess(fileData);
+      AudioProcessor.assessAudio(fileData);
     }
   }
 

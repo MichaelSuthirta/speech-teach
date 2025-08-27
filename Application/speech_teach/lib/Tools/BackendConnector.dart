@@ -17,7 +17,7 @@ class BackendConnector{
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
-  static void assess(List<String> fileData) async{
+  static Future<Map<String, dynamic>> assess(List<String> fileData) async{
     var uri = Uri.parse("http://${activePort}/assess");
     var request = http.MultipartRequest("POST", uri);
 
@@ -33,6 +33,6 @@ class BackendConnector{
     var streamedResponse = await request.send();
 
     var response = await http.Response.fromStream(streamedResponse);
-    print(response.body);
+    return jsonDecode(response.body) as Map<String, dynamic>;
   }
 }
