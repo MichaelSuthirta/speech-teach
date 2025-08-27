@@ -37,7 +37,7 @@ class _RecordButtonState extends State<RecordButton>{
         isRecording = false;
       });
       List<String> fileData = await Recorder.stopRecord();
-      BackendConnector.sendAudio(fileData);
+      BackendConnector.assess(fileData);
     }
   }
 

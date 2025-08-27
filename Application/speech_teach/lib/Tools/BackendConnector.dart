@@ -17,37 +17,22 @@ class BackendConnector{
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
-  static void sendAudio(List<String> fileData) async{
+  static void assess(List<String> fileData) async{
     var uri = Uri.parse("http://${activePort}/assess");
-    var request = new http.MultipartRequest("POST", uri);
+    var request = http.MultipartRequest("POST", uri);
 
     String filePath = fileData[0];
     String fileName = fileData[1];
 
-    request.files.add(new http.MultipartFile.fromBytes(
+    request.files.add(http.MultipartFile.fromBytes(
       'file',
       await File(filePath).readAsBytes(),
       filename: fileName
     ));
 
-    request.send().then((response){
-      if(response.statusCode == 200) {
-        print("Successfully sent file.");
-      }
-    });
+    var streamedResponse = await request.send();
 
-    getTranscribedWord();
-
-    // await http.post(
-    //   uri,
-    //   body: jsonEncode({"filePath" : filePath})
-    // );
-  }
-
-  static void getTranscribedWord() async{
-    var response = await http.get(Uri.parse("http://${activePort}/assess"));
-    var result = jsonDecode(response.body) as Map<String, dynamic>;
-    // print(result["Transcription"]);
-    print(result);
+    var response = await http.Response.fromStream(streamedResponse);
+    print(response.body);
   }
 }

@@ -12,12 +12,11 @@ from pydub import AudioSegment
 
 
 app = Flask("__name__")
+
 UPLOAD_FOLDER = 'Backend\\Temporary Audio Storage'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
-# filePath = None
-
 
 # Random word generator
 def load_csv():
@@ -64,12 +63,12 @@ audioFile = AudioFile()
 
 # Transcriber
 
-def model_predict(fileName):
+def model_predict(filePath):
     path = "Backend\\Model"
     model = WhisperForConditionalGeneration.from_pretrained(path)
     processor = WhisperProcessor.from_pretrained(path)
 
-    audio_file = AudioSegment.from_file(fileName).set_channels(1).set_frame_rate(16000)
+    audio_file = AudioSegment.from_file(filePath).set_channels(1).set_frame_rate(16000)
     audio = (np.array(audio_file.get_array_of_samples(), dtype=np.float32))/np.iinfo(np.int16).max
     print(audio)
 
@@ -90,11 +89,11 @@ def model_predict(fileName):
     result_tokens = model.generate(**(proc_input))
     print(result_tokens)
     result = processor.batch_decode(result_tokens, skip_special_tokens=True)
+    print(result[0])
 
     return result[0]
 
 # Routes
-
 @app.route("/")
 def print_status():
     return "Server on."
@@ -105,37 +104,23 @@ def choose_word():
     return jsonify({'Word': word, 'Definition':definition})
 
 
-@app.route("/assess", methods=["GET", "POST"])
-def transcribeAudio():
-    global response
+@app.route("/assess", methods=["POST"])
+def saveAudio():
+    if 'file' not in request.files:
+        return jsonify({'error' : 'File not found'});400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error' : 'File name is empty'});400
+    
+    audioFile.setName(file.filename)
+ 
+    audioFile.setPath(os.path.join(app.config['UPLOAD_FOLDER'], audioFile.getName()))
 
-    if(request.method == "POST"):
-        # data = request.data
-        # data = json.loads(data.decode("utf-8"))
-        # filePath = data["filePath"]
-        # return ""
-        # global filePath
+    file.save(audioFile.getPath())
 
-        if 'file' not in request.files:
-            return jsonify({'error' : 'File not found'});400
-        
-        file = request.files['file']
-        if file.filename == '':
-            return jsonify({'error' : 'File name is empty'});400
-        
-        audioFile.setName(file.filename)
-        
-        filePath = os.path.join(app.config['UPLOAD_FOLDER'], audioFile.getName())
-        audioFile.setPath(filePath)
-
-        file.save(filePath)
-
-        return ''
-
-    else:
-        # word = model_predict(filePath)
-        # return jsonify({"Transcription" : word})
-        return jsonify({"Path" : audioFile.getName()})
+    transcribeResult = audioFile.transcribe()
+    return jsonify({'Result' : transcribeResult})
 
 if __name__ == "__main__":
     app.run(debug="True") 
