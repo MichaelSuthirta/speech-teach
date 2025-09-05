@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:speech_teach/UI/Displays/ResultDisplayer.dart';
 import '/Tools/BackendConnector.dart';
 import '/Scaffold/AppScaffold.dart';
-import '/UI/Words/WordDisplay.dart';
-import '/UI/Words/DefinitionDisplay.dart';
+import '/UI/Texts/LargeText.dart';
+import '/UI/Texts/SmallText.dart';
 import '/UI/Buttons/RecordButton.dart';
 import '/UI/Buttons/BoxedIconButton.dart';
 import '/Tools/Recorder.dart';
@@ -55,8 +55,8 @@ class _PracticePageState extends State<PracticePage>{
                     
                     return Column(
                       children:[
-                        WordDisplay(word: word),
-                        DefinitionDisplay(sentence: def)
+                        LargeText(word: word, size: 42),
+                        SmallText(sentence: def, size: 20)
                       ]
                     );
                   }

@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 from transformers import WhisperForConditionalGeneration, WhisperProcessor
 from pydub import AudioSegment
+import string
 
 
 app = Flask("__name__")
@@ -93,7 +94,12 @@ def model_predict(filePath):
     return result[0]
 
 def assessAudio(actualWord, transcribedWord):
-    pass
+    cleanInput = ''.join(char for char in transcribedWord if char not in string.punctuation)
+    cleanActual = ''.join(char for char in actualWord if char not in string.punctuation)
+
+    if(cleanInput == cleanActual):
+        return 1
+    return 0
 
 # Routes
 @app.route("/")
@@ -107,7 +113,7 @@ def choose_word():
 
 
 @app.route("/assess", methods=["POST"])
-def assessAudio():
+def processAudio():
     if 'file' not in request.files:
         return jsonify({'error' : 'File not found'});400
     
@@ -116,14 +122,20 @@ def assessAudio():
         return jsonify({'error' : 'File name is empty'});400
     
     audioFile.setName(file.filename)
- 
     audioFile.setPath(os.path.join(app.config['UPLOAD_FOLDER'], audioFile.getName()))
-
     file.save(audioFile.getPath())
 
+    actualWord = request.form.to_dict()['actualWord']
+
     transcribeResult = audioFile.transcribe()
-    print(request.form.to_dict()['actualWord'])
-    return jsonify({'Result' : transcribeResult})
+    correctness = assessAudio(actualWord, transcribeResult)
+    print(actualWord)
+
+    return jsonify({
+        'Result' : transcribeResult,
+        'Actual Word' : actualWord,
+        'Assessment Result' : correctness
+    })
 
 if __name__ == "__main__":
     app.run(debug="True") 
