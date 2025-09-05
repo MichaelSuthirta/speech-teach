@@ -3,7 +3,8 @@ import '/Tools/AudioProcessor.dart';
 import '/Tools/Recorder.dart';
 
 class RecordButton extends StatefulWidget{
-  const RecordButton({super.key});
+  final AudioProcessor processor;
+  const RecordButton({super.key, required this.processor});
 
   @override
   State<RecordButton> createState() => _RecordButtonState();
@@ -12,6 +13,7 @@ class RecordButton extends StatefulWidget{
 class _RecordButtonState extends State<RecordButton>{
   final String recStart = "assets/UI/Icons/MicOnBtn.png";
   final String recStop = "assets/UI/Icons/MicOffBtn.png";
+  final AudioProcessor processor = AudioProcessor();
   bool isRecording = false;
 
   String currentIconPath = '';
@@ -37,7 +39,8 @@ class _RecordButtonState extends State<RecordButton>{
         isRecording = false;
       });
       List<String> fileData = await Recorder.stopRecord();
-      AudioProcessor.assessAudio(fileData);
+      widget.processor.setData(fileData);
+      widget.processor.assessAudio();
     }
   }
 

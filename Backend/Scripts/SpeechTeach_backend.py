@@ -107,7 +107,7 @@ def choose_word():
 
 
 @app.route("/assess", methods=["POST"])
-def saveAudio():
+def assessAudio():
     if 'file' not in request.files:
         return jsonify({'error' : 'File not found'});400
     
@@ -122,6 +122,7 @@ def saveAudio():
     file.save(audioFile.getPath())
 
     transcribeResult = audioFile.transcribe()
+    print(request.form.to_dict()['actualWord'])
     return jsonify({'Result' : transcribeResult})
 
 if __name__ == "__main__":

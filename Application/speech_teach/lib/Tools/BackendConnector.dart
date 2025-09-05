@@ -17,9 +17,11 @@ class BackendConnector{
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
-  static Future<Map<String, dynamic>> assess(List<String> fileData) async{
+  static Future<Map<String, dynamic>> assess(List<String> fileData, String actualWord) async{
     var uri = Uri.parse("http://${activePort}/assess");
     var request = http.MultipartRequest("POST", uri);
+
+    print("Actual word: $actualWord");
 
     String filePath = fileData[0];
     String fileName = fileData[1];
@@ -29,6 +31,12 @@ class BackendConnector{
       await File(filePath).readAsBytes(),
       filename: fileName
     ));
+
+    request.fields.addAll(
+        {
+          "actualWord": actualWord
+        }
+    );
 
     var streamedResponse = await request.send();
 

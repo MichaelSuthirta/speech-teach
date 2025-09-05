@@ -1,13 +1,30 @@
+import 'package:flutter/material.dart';
 import '/Tools/BackendConnector.dart';
 
-class AudioProcessor{
-  static late Map<String, dynamic> assessmentResult;
+class AudioProcessor extends ChangeNotifier{
+  late String actualWord;
+  late List<String> audioData;
+  Map<String, dynamic> assessmentResult = {'Result' : '-1'};
 
-  static void assessAudio(List<String> fileData) async{
-    assessmentResult = await BackendConnector.assess(fileData);
+  void setActualWord(String word){
+    actualWord = word;
   }
 
-  static Map<String, dynamic> getResult(){
-    return assessmentResult;
+  void setData(List<String> fileData){
+    audioData = fileData;
+  }
+
+  void assessAudio() async{
+    assessmentResult = await BackendConnector.assess(audioData, actualWord);
+    notifyListeners();
+  }
+
+  String getResult() {
+    return assessmentResult['Result'];
+  }
+
+  void resetResultContent(){
+    assessmentResult = {'Result':'-1'};
+    notifyListeners();
   }
 }

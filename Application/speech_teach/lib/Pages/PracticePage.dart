@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:speech_teach/UI/Displays/ResultDisplayer.dart';
 import '/Tools/BackendConnector.dart';
 import '/Scaffold/AppScaffold.dart';
 import '/UI/Words/WordDisplay.dart';
@@ -6,6 +7,7 @@ import '/UI/Words/DefinitionDisplay.dart';
 import '/UI/Buttons/RecordButton.dart';
 import '/UI/Buttons/BoxedIconButton.dart';
 import '/Tools/Recorder.dart';
+import '/Tools/AudioProcessor.dart';
 
 class PracticePage extends StatefulWidget{
   PracticePage({super.key});
@@ -17,6 +19,8 @@ class PracticePage extends StatefulWidget{
 class _PracticePageState extends State<PracticePage>{
   late String word = '';
   late String def = '';
+
+  AudioProcessor processor = AudioProcessor();
 
   @override
   void initState(){
@@ -47,6 +51,7 @@ class _PracticePageState extends State<PracticePage>{
                     def = snapshot.data!['Definition'];
 
                     Recorder.setFileName(word);
+                    processor.setActualWord(word);
                     
                     return Column(
                       children:[
@@ -68,17 +73,19 @@ class _PracticePageState extends State<PracticePage>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RecordButton(),
+                  RecordButton(processor: processor),
                   BoxedIconButton(
                     imagePath: "assets/UI/Icons/RefreshButton.png",
                     size: 80,
                     onPress: (){
                       setState((){});
+                      processor.resetResultContent();
                     },
                   )
                 ],
               )
-            )
+            ),
+            ResultDisplayer(processor: processor)
           ],
         )
     );
