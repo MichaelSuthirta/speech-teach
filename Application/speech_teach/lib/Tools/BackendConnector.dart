@@ -6,9 +6,10 @@ import 'dart:convert';
 class BackendConnector{
   static String androidStudioIPPort = "10.0.2.2:5000";
   static String ipAddressPort = "192.168.1.7:5000";
+  static String ipAddressPort2 = "192.168.0.103:5000";
   static String localHostPort = "127.0.0.1:5000";
 
-  static String activePort = androidStudioIPPort;
+  static String activePort = ipAddressPort2;
 
   static Future<Map<String, dynamic>> fetchWords() async {
     var response = await http.get(

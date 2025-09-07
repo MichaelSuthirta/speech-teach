@@ -19,8 +19,12 @@ class AudioProcessor extends ChangeNotifier{
     notifyListeners();
   }
 
-  String getResult() {
+  String getTranscribeResult() {
     return assessmentResult['Result'];
+  }
+
+  Map<String, dynamic> getResult(){
+    return assessmentResult;
   }
 
   void resetResultContent(){
