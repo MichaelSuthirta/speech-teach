@@ -131,6 +131,11 @@ def processAudio():
     correctness = assessAudio(actualWord, transcribeResult)
     print(actualWord)
 
+    if(os.path.exists(audioFile.getPath())):
+        os.remove(audioFile.getPath())
+    else:
+        print(f"File {audioFile.getPath()} isn't in the directory")
+
     return jsonify({
         'Result' : transcribeResult,
         'Actual Word' : actualWord,

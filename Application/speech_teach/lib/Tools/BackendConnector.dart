@@ -27,9 +27,11 @@ class BackendConnector{
     String filePath = fileData[0];
     String fileName = fileData[1];
 
+    var file = File(filePath);
+
     request.files.add(http.MultipartFile.fromBytes(
       'file',
-      await File(filePath).readAsBytes(),
+      await file.readAsBytes(),
       filename: fileName
     ));
 
@@ -42,6 +44,16 @@ class BackendConnector{
     var streamedResponse = await request.send();
 
     var response = await http.Response.fromStream(streamedResponse);
+
+    try{
+      if(await file.exists()){
+        await file.delete();
+      }
+    }
+    catch(e){
+      print(e);
+    }
+
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 }

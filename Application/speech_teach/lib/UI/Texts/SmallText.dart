@@ -4,18 +4,20 @@ import 'package:speech_teach/UI/Texts/TextDisplayer.dart';
 class SmallText extends TextDisplayer{
   final String sentence;
   final double size;
+  final Color? color;
 
   const SmallText({
     super.key,
     required this.sentence,
-    required this.size
+    required this.size,
+    this.color
   }) : super(
       word: sentence,
       size: size,
       topPad: 5,
       botPad: 0,
       font: "Consolas",
-      textColor: const Color.fromRGBO(118, 120, 237, 1.0)
+      textColor: color ?? const Color.fromRGBO(118, 120, 237, 1.0)
   );
 
   @override

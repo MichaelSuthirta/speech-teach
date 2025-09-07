@@ -19,6 +19,7 @@ class _ResDisplayState extends State<ResultDisplayer>{
   late String assessmentRes;
   late String explanation;
   late Color displayerColor;
+  late Color? explanationColor;
 
   @override
   void initState(){
@@ -32,18 +33,20 @@ class _ResDisplayState extends State<ResultDisplayer>{
       displayerColor = correctDisplayColor;
       assessmentRes = 'Correct';
       explanation = 'Your word is detected as ${result['Result']}';
+      explanationColor = null;
     }
     else if(isCorrect == 0){
       displayerColor = wrongDisplayColor;
       assessmentRes = 'Try again...';
       explanation = 'Your word is detected as ${result['Result']}';
+      explanationColor = const Color.fromRGBO(255, 251, 241, 1);
     }
   }
 
   @override
   Widget build(BuildContext context){
     return Container(
-      padding: EdgeInsets.fromLTRB(8, 15, 8, 0),
+      padding: const EdgeInsets.fromLTRB(8, 15, 8, 0),
       child: ListenableBuilder(
         listenable: widget.processor,
         builder: (BuildContext context, Widget? child){
@@ -59,18 +62,18 @@ class _ResDisplayState extends State<ResultDisplayer>{
           // return Text(widget.processor.getTranscribeResult());
           return Container(
             width: double.infinity,
-            height: 175,
+            height: 165,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: displayerColor,
                 borderRadius: BorderRadius.all(Radius.circular(25))
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 12, 0, 0),
+                padding: EdgeInsets.fromLTRB(7, 12, 7, 0),
                 child: Column(
                   children: [
                     LargeText(word: assessmentRes, size: 40),
-                    SmallText(sentence: explanation, size: 20)
+                    SmallText(sentence: explanation, size: 20, color: explanationColor)
                   ],
                 ),
               )

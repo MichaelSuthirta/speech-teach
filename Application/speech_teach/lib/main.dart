@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:speech_teach/Pages/PracticePage.dart';
 import 'Scaffold/AppScaffold.dart';
 import 'UI/Buttons/MainMenuButton.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const Application());
 }
 

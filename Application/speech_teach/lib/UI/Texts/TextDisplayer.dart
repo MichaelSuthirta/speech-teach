@@ -29,6 +29,7 @@ abstract class TextDisplayer extends StatelessWidget{
             fontSize: size,
             color: textColor
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }
