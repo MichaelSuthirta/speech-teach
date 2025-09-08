@@ -11,8 +11,8 @@ class RecordButton extends StatefulWidget{
 }
 
 class _RecordButtonState extends State<RecordButton>{
-  final String recStart = "assets/UI/Icons/MicOnBtn.png";
-  final String recStop = "assets/UI/Icons/MicOffBtn.png";
+  final String recStart = "assets/UI/Buttons/MicOnBtn.png";
+  final String recStop = "assets/UI/Buttons/MicOffBtn.png";
   final AudioProcessor processor = AudioProcessor();
   bool isRecording = false;
 
@@ -54,9 +54,14 @@ class _RecordButtonState extends State<RecordButton>{
         splashColor: Colors.black,
         icon: Image(image: AssetImage(currentIconPath)),
         onPressed: () async{
-          record();
-          print("Clicked record");
-          },
+          if(widget.processor.getActualWord() == ''){
+            null;
+          }
+          else{
+            record();
+            print("Clicked record");
+          }
+        },
       )
     );
   }

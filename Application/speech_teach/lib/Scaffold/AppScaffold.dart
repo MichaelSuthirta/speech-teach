@@ -45,7 +45,7 @@ class AppScaffold extends StatelessWidget{
               ],
             ),
             BoxedIconButton(
-              imagePath: "assets/UI/Icons/profileIconBtn.png",
+              imagePath: "assets/UI/Buttons/profileIconBtn.png",
               size: 80,
               onPress: (){},
             )

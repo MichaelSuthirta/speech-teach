@@ -75,7 +75,7 @@ class _PracticePageState extends State<PracticePage>{
                 children: [
                   RecordButton(processor: processor),
                   BoxedIconButton(
-                    imagePath: "assets/UI/Icons/RefreshButton.png",
+                    imagePath: "assets/UI/Buttons/RefreshButton.png",
                     size: 80,
                     onPress: (){
                       setState((){});

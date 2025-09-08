@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import '/Tools/BackendConnector.dart';
 
 class AudioProcessor extends ChangeNotifier{
-  late String actualWord;
+  String actualWord = '';
   late List<String> audioData;
   Map<String, dynamic> assessmentResult = {'Result' : '-1'};
 
   void setActualWord(String word){
     actualWord = word;
+  }
+
+  String getActualWord(){
+    return actualWord;
   }
 
   void setData(List<String> fileData){

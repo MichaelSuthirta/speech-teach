@@ -14,8 +14,8 @@ class ResultDisplayer extends StatefulWidget{
 class _ResDisplayState extends State<ResultDisplayer>{
   int isCorrect = -1;
   late Map<String, dynamic> result;
-  Color correctDisplayColor = Color.fromRGBO(191, 242, 152, 1);
-  Color wrongDisplayColor = Color.fromRGBO(255, 157, 139, 100);
+  Color correctDisplayColor = const Color.fromRGBO(191, 242, 152, 1);
+  Color wrongDisplayColor = const Color.fromRGBO(255, 157, 139, 100);
   late String assessmentRes;
   late String explanation;
   late Color displayerColor;
@@ -60,16 +60,16 @@ class _ResDisplayState extends State<ResultDisplayer>{
           setValues();
 
           // return Text(widget.processor.getTranscribeResult());
-          return Container(
+          return SizedBox(
             width: double.infinity,
             height: 165,
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: displayerColor,
-                borderRadius: BorderRadius.all(Radius.circular(25))
+                borderRadius: const BorderRadius.all(Radius.circular(25))
               ),
               child: Padding(
-                padding: EdgeInsets.fromLTRB(7, 12, 7, 0),
+                padding: const EdgeInsets.fromLTRB(7, 12, 7, 0),
                 child: Column(
                   children: [
                     LargeText(word: assessmentRes, size: 40),
