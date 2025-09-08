@@ -20,6 +20,9 @@ class Application extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        actionIconTheme: ActionIconThemeData(
+          backButtonIconBuilder: (BuildContext context) => Image(image: AssetImage('assets/UI/Buttons/BackBtn.png'),)
+        )
       ),
       home: const HomePage(title: 'Home Page'),
       debugShowCheckedModeBanner: false,

@@ -5,12 +5,12 @@ import '/Scaffold/AppScaffold.dart';
 import '/UI/Texts/LargeText.dart';
 import '/UI/Texts/SmallText.dart';
 import '/UI/Buttons/RecordButton.dart';
-import '/UI/Buttons/BoxedIconButton.dart';
+import '/UI/Buttons/RefreshButton.dart';
 import '/Tools/Recorder.dart';
 import '/Tools/AudioProcessor.dart';
 
 class PracticePage extends StatefulWidget{
-  PracticePage({super.key});
+  const PracticePage({super.key});
 
   @override
   State<PracticePage> createState() => _PracticePageState();
@@ -64,7 +64,7 @@ class _PracticePageState extends State<PracticePage>{
                     return Text("Error encountered in fetching data: ${snapshot.error}");
                   }
                   else{
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
             ),
@@ -74,9 +74,9 @@ class _PracticePageState extends State<PracticePage>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RecordButton(processor: processor),
-                  BoxedIconButton(
-                    imagePath: "assets/UI/Buttons/RefreshButton.png",
+                  RefreshButton(
                     size: 80,
+                    processor: processor,
                     onPress: (){
                       setState((){});
                       processor.resetResultContent();

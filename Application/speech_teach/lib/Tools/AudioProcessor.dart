@@ -3,7 +3,7 @@ import '/Tools/BackendConnector.dart';
 
 class AudioProcessor extends ChangeNotifier{
   String actualWord = '';
-  late List<String> audioData;
+  List<String> audioData = ['',''];
   Map<String, dynamic> assessmentResult = {'Result' : '-1'};
 
   void setActualWord(String word){
@@ -16,6 +16,7 @@ class AudioProcessor extends ChangeNotifier{
 
   void setData(List<String> fileData){
     audioData = fileData;
+    notifyListeners();
   }
 
   void assessAudio() async{
