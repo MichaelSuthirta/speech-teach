@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '/Tools/AudioProcessor.dart';
 import '/UI/Texts/LargeText.dart';
 import '/UI/Texts/SmallText.dart';
 
 class ResultDisplayer extends StatefulWidget{
   final AudioProcessor processor;
-  const ResultDisplayer({super.key, required this.processor});
+  final AudioPlayer audioPlayer = AudioPlayer();
+  ResultDisplayer({super.key, required this.processor});
 
   @override
   State<ResultDisplayer> createState() => _ResDisplayState();
@@ -20,6 +22,7 @@ class _ResDisplayState extends State<ResultDisplayer>{
   late String explanation;
   late Color displayerColor;
   late Color? explanationColor;
+  late String audioPath;
 
   @override
   void initState(){
@@ -34,12 +37,14 @@ class _ResDisplayState extends State<ResultDisplayer>{
       assessmentRes = 'Correct';
       explanation = 'Your word is detected as ${result['Result']}';
       explanationColor = null;
+      audioPath = 'audio/CorrectAnswer.mp3';
     }
     else if(isCorrect == 0){
       displayerColor = wrongDisplayColor;
       assessmentRes = 'Try again...';
       explanation = 'Your word is detected as ${result['Result']}';
       explanationColor = const Color.fromRGBO(255, 251, 241, 1);
+      audioPath = 'audio/WrongAnswer.mp3';
     }
   }
 
@@ -51,13 +56,22 @@ class _ResDisplayState extends State<ResultDisplayer>{
         listenable: widget.processor,
         builder: (BuildContext context, Widget? child){
           String transcribedWord = widget.processor.getTranscribeResult();
-          if(transcribedWord == '-1'){
-            return Container();
+          List<String> fileData = widget.processor.getData();
+          if(transcribedWord == '-1' && fileData == ['','']){
+            return Container(child: null);
+          }
+
+          else if(transcribedWord == '-1' && fileData != ['','']){
+            return Container(
+              child: CircularProgressIndicator(),
+            );
           }
 
           result = widget.processor.getResult();
           isCorrect = result['Assessment Result'];
           setValues();
+
+          widget.audioPlayer.play(AssetSource(audioPath));
 
           // return Text(widget.processor.getTranscribeResult());
           return SizedBox(

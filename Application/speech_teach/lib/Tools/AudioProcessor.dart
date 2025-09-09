@@ -19,6 +19,10 @@ class AudioProcessor extends ChangeNotifier{
     notifyListeners();
   }
 
+  List<String> getData(){
+    return audioData;
+  }
+
   void assessAudio() async{
     assessmentResult = await BackendConnector.assess(audioData, actualWord);
     notifyListeners();
@@ -34,6 +38,11 @@ class AudioProcessor extends ChangeNotifier{
 
   void resetResultContent(){
     assessmentResult = {'Result':'-1'};
+    notifyListeners();
+  }
+
+  void resetFileData(){
+    audioData = ['', ''];
     notifyListeners();
   }
 }

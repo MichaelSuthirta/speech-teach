@@ -97,7 +97,7 @@ def assessAudio(actualWord, transcribedWord):
     cleanInput = ''.join(char for char in transcribedWord if char not in string.punctuation)
     cleanActual = ''.join(char for char in actualWord if char not in string.punctuation)
 
-    if(cleanInput == cleanActual):
+    if(cleanInput.lower() == cleanActual.lower()):
         return 1
     return 0
 

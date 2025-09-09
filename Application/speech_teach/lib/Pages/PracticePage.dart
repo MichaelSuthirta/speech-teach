@@ -80,6 +80,7 @@ class _PracticePageState extends State<PracticePage>{
                     onPress: (){
                       setState((){});
                       processor.resetResultContent();
+                      processor.resetFileData();
                     },
                   )
                 ],
