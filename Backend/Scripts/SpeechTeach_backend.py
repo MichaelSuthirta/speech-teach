@@ -1,8 +1,6 @@
 # Flask
 from flask import Flask, jsonify, request
-import json
 import os
-from werkzeug.utils import secure_filename
 
 # Dependencies
 import numpy as np
@@ -14,7 +12,7 @@ import string
 
 app = Flask("__name__")
 
-UPLOAD_FOLDER = 'Backend\\Temporary Audio Storage'
+UPLOAD_FOLDER = 'Backend\\Temporary_Audio_Storage'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
@@ -46,7 +44,7 @@ class AudioFile:
 def load_csv():
     global dictionary
     if(dictionary == None):
-        dictionary = (pd.read_csv("Backend\\Resource\\english Dictionary.csv")).to_dict()
+        dictionary = (pd.read_csv("Backend\\Resource\\englishDictionary.csv")).to_dict()
 
 def pick_word():
     if(dictionary == None):
@@ -72,6 +70,7 @@ def model_predict(filePath):
     audio = (np.array(audio_file.get_array_of_samples(), dtype=np.float32))/np.iinfo(np.int16).max
     print(audio)
 
+    #Process audio file
     proc_input = processor(audio, 
                     return_tensors="pt", 
                     truncation=False, 
@@ -143,4 +142,4 @@ def processAudio():
     })
 
 if __name__ == "__main__":
-    app.run(debug="True") 
+    app.run() #Debug is true for deployment
