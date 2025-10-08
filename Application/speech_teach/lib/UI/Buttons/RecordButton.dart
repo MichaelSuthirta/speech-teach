@@ -11,8 +11,8 @@ class RecordButton extends StatefulWidget{
 }
 
 class _RecordButtonState extends State<RecordButton>{
-  final String recStart = "assets/UI/Buttons/MicOnBtn.png";
-  final String recStop = "assets/UI/Buttons/MicOffBtn.png";
+  final String recStart = "assets/UI/Buttons/MicBtn.png";
+  final String recOnGoing = "assets/UI/Buttons/MicOnBtn.png";
   final AudioProcessor processor = AudioProcessor();
   bool isRecording = false;
 
@@ -28,7 +28,7 @@ class _RecordButtonState extends State<RecordButton>{
   void record() async{
     if(!isRecording){
       setState(() {
-        currentIconPath = recStop;
+        currentIconPath = recOnGoing;
         isRecording = true;
       });
       Recorder.startRecord();
