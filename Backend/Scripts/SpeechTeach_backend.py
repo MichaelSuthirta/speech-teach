@@ -12,7 +12,7 @@ import string
 
 app = Flask("__name__")
 
-UPLOAD_FOLDER = 'Backend\\Temporary_Audio_Storage'
+UPLOAD_FOLDER = '/tmp'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 dictionary = None
@@ -44,7 +44,7 @@ class AudioFile:
 def load_csv():
     global dictionary
     if(dictionary == None):
-        dictionary = (pd.read_csv("Backend\\Resource\\englishDictionary.csv")).to_dict()
+        dictionary = (pd.read_csv("Backend/Resource/englishDictionary.csv")).to_dict()
 
 def pick_word():
     if(dictionary == None):
@@ -62,7 +62,7 @@ audioFile = AudioFile()
 
 # Audio processing
 def model_predict(filePath):
-    path = "Backend\\Model"
+    path = "Backend/Model"
     model = WhisperForConditionalGeneration.from_pretrained(path)
     processor = WhisperProcessor.from_pretrained(path)
 
@@ -93,8 +93,8 @@ def model_predict(filePath):
     return result[0]
 
 def assessAudio(actualWord, transcribedWord):
-    cleanInput = ''.join(char for char in transcribedWord if char not in string.punctuation)
-    cleanActual = ''.join(char for char in actualWord if char not in string.punctuation)
+    cleanInput = ''.join(char for char in transcribedWord if char not in string.punctuation and char != " ")
+    cleanActual = ''.join(char for char in actualWord if char not in string.punctuation and char != " ")
 
     if(cleanInput.lower() == cleanActual.lower()):
         return 1
@@ -142,4 +142,4 @@ def processAudio():
     })
 
 if __name__ == "__main__":
-    app.run() #Debug is true for deployment
+    app.run(host = "0.0.0.0", port = 7860)

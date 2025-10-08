@@ -41,6 +41,12 @@ dependencies:
   path: ^1.9.0
   permission_handler: ^11.3.1
   audioplayers: ^5.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo/Logo.png"
 
 dev_dependencies:
   flutter_test:

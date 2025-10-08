@@ -32,6 +32,7 @@ class _RecordButtonState extends State<RecordButton>{
         isRecording = true;
       });
       Recorder.startRecord();
+      widget.processor.resetFileData();
     }
     else{
       setState(() {
@@ -39,6 +40,7 @@ class _RecordButtonState extends State<RecordButton>{
         isRecording = false;
       });
       List<String> fileData = await Recorder.stopRecord();
+      widget.processor.resetFileData();
       widget.processor.setData(fileData);
       widget.processor.assessAudio();
     }

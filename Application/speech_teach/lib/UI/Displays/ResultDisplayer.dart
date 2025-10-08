@@ -22,7 +22,7 @@ class _ResDisplayState extends State<ResultDisplayer>{
   late String explanation;
   late Color displayerColor;
   late Color? explanationColor;
-  late String audioPath;
+  late String? audioPath;
 
   @override
   void initState(){
@@ -45,6 +45,9 @@ class _ResDisplayState extends State<ResultDisplayer>{
       explanation = 'Your word is detected as ${result['Result']}';
       explanationColor = const Color.fromRGBO(255, 251, 241, 1);
       audioPath = 'audio/WrongAnswer.mp3';
+    }
+    else{
+      audioPath == null;
     }
   }
 
@@ -71,7 +74,9 @@ class _ResDisplayState extends State<ResultDisplayer>{
           isCorrect = result['Assessment Result'];
           setValues();
 
-          widget.audioPlayer.play(AssetSource(audioPath));
+          if(audioPath != null){
+            widget.audioPlayer.play(AssetSource(audioPath!));
+          }
 
           // return Text(widget.processor.getTranscribeResult());
           return SizedBox(

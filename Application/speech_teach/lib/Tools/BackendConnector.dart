@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'URLSetter.dart';
 
 class BackendConnector{
   static String androidStudioIPPort = "10.0.2.2:5000";
@@ -9,17 +10,19 @@ class BackendConnector{
   static String ipAddressPort2 = "192.168.0.100:5000";
   static String localHostPort = "127.0.0.1:5000";
 
-  static String activePort = ipAddressPort2;
+  static String HF = setURL();
+
+  static String activePort = HF;
 
   static Future<Map<String, dynamic>> fetchWords() async {
     var response = await http.get(
-        Uri.parse("http://${activePort}/word")
+        Uri.parse("${activePort}/word")
     );
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
   static Future<Map<String, dynamic>> assess(List<String> fileData, String actualWord) async{
-    var uri = Uri.parse("http://${activePort}/assess");
+    var uri = Uri.parse("${activePort}/assess");
     var request = http.MultipartRequest("POST", uri);
 
     print("Actual word: $actualWord");

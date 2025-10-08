@@ -1,6 +1,7 @@
 # Additional
 Backend/Model
 Backend/Temporary Audio Storage
+Application\speech_teach\lib\Tools\URLSetter.dart
 
 
 
@@ -186,4 +187,3 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 .idea/discord.xml
-

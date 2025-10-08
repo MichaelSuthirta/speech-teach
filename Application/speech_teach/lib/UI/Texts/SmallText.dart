@@ -24,15 +24,18 @@ class SmallText extends TextDisplayer{
   Widget build(BuildContext context){
     return Container(
       padding: EdgeInsets.fromLTRB(0, topPad, 0, botPad),
-      child: Text(
-        sentence,
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-        style: TextStyle(
-            fontFamily: "Consolas",
-            fontSize: size,
-            color: textColor
+      height: 60,
+      child: SingleChildScrollView(
+        child: Text(
+          sentence,
+          textAlign: TextAlign.center,
+          // overflow: TextOverflow.ellipsis,
+          // maxLines: 2,
+          style: TextStyle(
+              fontFamily: "Consolas",
+              fontSize: size,
+              color: textColor
+          ),
         ),
       )
     );
